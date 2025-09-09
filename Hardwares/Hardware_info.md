@@ -4,7 +4,7 @@ This document provides a complete guide to our project, TransitPAY, which combin
 
 ---
 
-### 1. Complete Wiring Diagram
+### 1. Wiring Diagram (not visual)
 
 This section outlines the final, correct wiring for the electronic components.
 
@@ -17,6 +17,13 @@ This section outlines the final, correct wiring for the electronic components.
 - **PN532 `VCC`** → **ESP8266 `3.3V`**
 - **PN532 `GND`** → **ESP8266 `GND`**
 
+---
+
+### 1. Wiring Diagram (Visual)
+
+#### Take a reference to this image for wiring of your modules.
+
+![Image for referencing](./NodeMCU-pn32.png)
 
 ---
 
