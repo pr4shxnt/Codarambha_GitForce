@@ -1,5 +1,7 @@
 #include <SPI.h>
 #include <Adafruit_PN532.h>
+#include <ESP8266WiFi.h>
+#include <WiFiManager.h>  // Install from Library Manager
 
 // PN532 hardware SPI pins for NodeMCU 1.0
 #define PN532_SS   D4
@@ -11,8 +13,18 @@ Adafruit_PN532 nfc(PN532_SS);
 
 void setup(void) {
   Serial.begin(115200);
-  Serial.println("Starting NFC reader...");
+  Serial.println("Starting...");
 
+  // Start WiFi Manager Portal
+  WiFiManager wifiManager;
+  wifiManager.resetSettings(); 
+  wifiManager.autoConnect("NEPAL YATAYAT", "12345678"); 
+
+  Serial.println("Connected to WiFi!");
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
+
+  // Start NFC
   nfc.begin();
   uint32_t versiondata = nfc.getFirmwareVersion();
   if (!versiondata) {
