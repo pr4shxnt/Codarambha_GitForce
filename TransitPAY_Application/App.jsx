@@ -1,15 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
-import { NewAppScreen } from '@react-native/new-app-screen';
+import { ArrowBigRight } from 'lucide-react';
+import './global.css';
+import { Text, View, Pressable } from 'react-native';
 
-const App = () => {
+export default function App() {
   return (
-    <View>
-      <Text>Hello World</Text>
+    <View className="flex-1 items-center justify-center bg-white">
+      <Pressable className="bg-blue-500 px-3 py-2">
+        <Text className="text-3xl">Continue</Text>
+      </Pressable>
+      <Text className="text-xl font-bold text-blue-500">
+        Welcome to TransitPay!
+      </Text>
     </View>
   );
-};
-
-export default App;
-
-const styles = StyleSheet.create({});
+}
