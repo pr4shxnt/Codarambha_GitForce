@@ -17,6 +17,8 @@ This section outlines the final, correct wiring for the electronic components.
 - **PN532 `VCC`** → **ESP8266 `3.3V`**
 - **PN532 `GND`** → **ESP8266 `GND`**
 
+Note: Please turn the second switch of pn532 inorder to switch communication to SPI method.
+
 ---
 
 ### 1. Wiring Diagram (Visual)
