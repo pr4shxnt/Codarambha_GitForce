@@ -25,6 +25,10 @@ app.get("/", (req, res) => {
   });
 });
 
+app.use("/user", require("./routes/user.routes"));
+app.use("/wallet", require("./routes/wallet.routes"));
+app.use("/trips", require("./routes/trip.routes"));
+
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ message: "Internal server error" });

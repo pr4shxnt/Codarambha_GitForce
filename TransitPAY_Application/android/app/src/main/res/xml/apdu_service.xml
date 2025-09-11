@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<host-apdu-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/app_name"
+    android:requireDeviceUnlock="false"
+    android:apduServiceBanner="@mipmap/ic_launcher">
+    <aid-group android:category="payment" android:description="@string/app_name">
+        <!-- Example AID; replace with your scheme or transit AID -->
+        <aid-filter android:name="A0000004762010" />
+    </aid-group>
+</host-apdu-service>
+
+

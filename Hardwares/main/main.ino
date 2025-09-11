@@ -17,7 +17,6 @@ void setup(void) {
 
   // Start WiFi Manager Portal
   WiFiManager wifiManager;
-  wifiManager.resetSettings(); 
   wifiManager.autoConnect("NEPAL YATAYAT", "12345678"); 
 
   Serial.println("Connected to WiFi!");
@@ -47,14 +46,14 @@ void setup(void) {
 
 void loop(void) {
   uint8_t success;
-  uint8_t uid[] = {0, 0, 0, 0, 0, 0, 0}; // Buffer to store UID
+  uint8_t uid[7]; // Buffer to store UID
   uint8_t uidLength;
 
   // Wait for an ISO14443A card
   success = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength);
 
   if (success) {
-    Serial.println("\nCard Found!");
+    Serial.println("\nCard / Device Found!");
     Serial.print("UID Length: "); 
     Serial.print(uidLength, DEC); 
     Serial.println(" bytes");
@@ -63,16 +62,26 @@ void loop(void) {
     nfc.PrintHex(uid, uidLength); 
     Serial.println("");
 
-    if (uidLength == 4) {
-      uint32_t cardid = uid[0];
-      cardid <<= 8;
-      cardid |= uid[1];
-      cardid <<= 8;
-      cardid |= uid[2];
-      cardid <<= 8;
-      cardid |= uid[3];
-      Serial.print("Mifare Classic Card ID: ");
-      Serial.println(cardid);
+    // -----------------------------
+    // Try APDU exchange (works if HCE app is installed)
+    // -----------------------------
+
+    // Example: SELECT AID (replace with your app's AID bytes)
+    // Example AID = F0 12 34 56 78
+    uint8_t selectApdu[] = {
+      0x00, 0xA4, 0x04, 0x00, 0x05, // CLA, INS, P1, P2, Length
+      0xF0, 0x12, 0x34, 0x56, 0x78  // Your AID here
+    };
+
+    uint8_t response[255];
+    uint8_t responseLength = sizeof(response);
+
+    if (nfc.inDataExchange(selectApdu, sizeof(selectApdu), response, &responseLength)) {
+      Serial.print("APDU Response: ");
+      nfc.PrintHex(response, responseLength);
+      Serial.println();
+    } else {
+      Serial.println("No APDU response (maybe app not installed?)");
     }
 
     delay(1000); // small delay before next scan
