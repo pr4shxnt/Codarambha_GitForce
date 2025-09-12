@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <host-apdu-service xmlns:android="http://schemas.android.com/apk/res/android"
-    android:description="@string/app_name"
-    android:requireDeviceUnlock="false"
-    android:apduServiceBanner="@mipmap/ic_launcher">
-    <aid-group android:category="payment" android:description="@string/app_name">
-        <!-- Example AID; replace with your scheme or transit AID -->
-        <aid-filter android:name="A0000004762010" />
+    android:description="@string/service_name"
+    android:requireDeviceUnlock="false">
+
+    <aid-group android:category="other">
+        <aid-filter android:name="F012345678" />
     </aid-group>
 </host-apdu-service>
+<!--
+  The AID (Application Identifier) is a unique identifier for an application on a smart card.
+  It is used to route APDU commands to the appropriate application.
 
+  The AID format is defined by ISO/IEC 7816-5. It consists of a RID (Registered Application Provider Identifier)
+  and a PIX (Proprietary Application Identifier Extension). The RID is assigned by the ISO/IEC and the PIX
+  is assigned by the application provider.
 
+  In this example, we use a sample AID "F012345678". You should replace this with your own AID.
+  Make sure to register your RID with the appropriate authority if you are using a custom RID.
+-->
