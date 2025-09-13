@@ -2,152 +2,152 @@ import React from 'react';
 import { Provider, useSelector, useDispatch } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {
+  StatusBar,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  TextInput,
+} from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { store } from './src/store';
 import { login, loginMock } from './src/slices/userSlice';
-import { fetchWallet, serverTopUp, serverDeduct, topUp, deduct } from './src/slices/walletSlice';
-import { addTrip, fetchTrips, createTrip } from './src/slices/tripsSlice';
-import { Text, View, TouchableOpacity, ScrollView, TextInput } from 'react-native';
-import { HCESession, NFCTagType4NDEFContentType, NFCTagType4 } from 'react-native-hce';
+import './global.css';
+import WalletScreen from './Components/WalletScreen';
+import {
+  fetchWallet,
+  serverTopUp,
+  serverDeduct,
+} from './src/slices/walletSlice';
+import { fetchTrips, createTrip } from './src/slices/tripsSlice';
+import {
+  HCESession,
+  NFCTagType4NDEFContentType,
+  NFCTagType4,
+} from 'react-native-hce';
 import { getOrCreateDeviceId } from './src/utils/deviceId';
-import { getOrCreateUserId, hasGeneratedCard, generateUserCard } from './src/utils/userId';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {
+  getOrCreateUserId,
+  generateUserCard,
+  hasGeneratedCard,
+} from './src/utils/userId';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const ScreenContainer = ({ title, children }) => (
-  <ScrollView contentContainerStyle={{ padding: 20, backgroundColor: '#f9fafb', minHeight: '100%' }}>
-    <Text style={{ fontSize: 28, fontWeight: '800', marginBottom: 12, color: '#111827' }}>{title}</Text>
-    {children}
-  </ScrollView>
+export const ScreenContainer = ({ title, children }) => (
+  <SafeAreaView className="flex-1 bg-white">
+    <ScrollView className="p-4 pt-12">
+      <Text className="text-3xl pt-3 font-bold mb-4">{title}</Text>
+      {children}
+    </ScrollView>
+  </SafeAreaView>
 );
 
+//
+// Login
+//
 const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [email, setEmail] = React.useState('ada@example.com');
   const [password, setPassword] = React.useState('password123');
   const [error, setError] = React.useState('');
+
   const onLogin = async () => {
     setError('');
     try {
       await dispatch(login({ email, password })).unwrap();
-      navigation.replace('Main');
-    } catch (e) {
+      navigation.replace('MainTabs');
+    } catch {
       setError('Login failed. Using mock account.');
       dispatch(loginMock());
-      navigation.replace('Main');
+      navigation.replace('MainTabs');
     }
   };
+
   return (
-    <ScreenContainer title="Welcome to TransitPAY">
-      <Text style={{ color: '#6b7280', marginBottom: 16 }}>Sign in to continue</Text>
-      <View style={{ gap: 12 }}>
-        <TextInput
-          value={email}
-          onChangeText={setEmail}
-          placeholder="Email"
-          autoCapitalize="none"
-          keyboardType="email-address"
-          style={{ backgroundColor: 'white', borderWidth: 1, borderColor: '#e5e7eb', padding: 12, borderRadius: 10 }}
-        />
-        <TextInput
-          value={password}
-          onChangeText={setPassword}
-          placeholder="Password"
-          secureTextEntry
-          style={{ backgroundColor: 'white', borderWidth: 1, borderColor: '#e5e7eb', padding: 12, borderRadius: 10 }}
-        />
-        {error ? <Text style={{ color: '#b91c1c' }}>{error}</Text> : null}
-        <TouchableOpacity onPress={onLogin} style={{ backgroundColor: '#111827', padding: 14, borderRadius: 10 }}>
-          <Text style={{ color: 'white', textAlign: 'center', fontWeight: '700' }}>Sign in</Text>
-        </TouchableOpacity>
-      </View>
+    <ScreenContainer title="TransitPAY">
+      <Text className="mb-2 text-gray-600">Sign in</Text>
+      <TextInput
+        value={email}
+        onChangeText={setEmail}
+        placeholder="Email"
+        className="border p-3 mb-3"
+        autoCapitalize="none"
+        keyboardType="email-address"
+      />
+      <TextInput
+        value={password}
+        onChangeText={setPassword}
+        placeholder="Password"
+        secureTextEntry
+        className="border p-3 mb-3"
+      />
+      {error ? <Text className="text-red-600 mb-2">{error}</Text> : null}
+      <TouchableOpacity onPress={onLogin} className="bg-black p-3">
+        <Text className="text-white text-center">Sign in</Text>
+      </TouchableOpacity>
     </ScreenContainer>
   );
 };
 
-const WalletScreen = () => {
-  const balanceCents = useSelector(s => s.wallet.balanceCents);
-  const token = useSelector(s => s.user.token);
-  const dispatch = useDispatch();
-  React.useEffect(() => { if (token) { dispatch(fetchWallet()); } }, [token, dispatch]);
-  return (
-    <ScreenContainer title="Wallet">
-      <View style={{ backgroundColor: '#111827', padding: 20, borderRadius: 16 }}>
-        <Text style={{ color: '#9ca3af' }}>Current balance</Text>
-        <Text style={{ color: 'white', fontSize: 32, fontWeight: '800' }}>${(balanceCents / 100).toFixed(2)}</Text>
-      </View>
-      <View style={{ flexDirection: 'row', gap: 12, marginTop: 16 }}>
-        <TouchableOpacity onPress={() => dispatch(serverTopUp(1000))} style={{ backgroundColor: '#059669', padding: 12, borderRadius: 10, flex: 1 }}>
-          <Text style={{ color: 'white', textAlign: 'center', fontWeight: '700' }}>Top up $10</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => dispatch(serverDeduct(250))} style={{ backgroundColor: '#b91c1c', padding: 12, borderRadius: 10, flex: 1 }}>
-          <Text style={{ color: 'white', textAlign: 'center', fontWeight: '700' }}>Deduct $2.50</Text>
-        </TouchableOpacity>
-      </View>
-    </ScreenContainer>
-  );
-};
+//
+// Wallet
+//
 
+//
+// Transactions
+//
 const TransactionsScreen = () => {
   const dispatch = useDispatch();
   const token = useSelector(s => s.user.token);
-  const balanceCents = useSelector(s => s.wallet.balanceCents);
-  const lowBalance = useSelector(s => balanceCents <= s.alerts.lowBalanceThresholdCents);
-  React.useEffect(() => { if (token) { dispatch(fetchTrips()); } }, [token, dispatch]);
+
+  React.useEffect(() => {
+    if (token) dispatch(fetchTrips());
+  }, [token, dispatch]);
+
   return (
     <ScreenContainer title="Pay & Ride">
-      <Text style={{ color: '#6b7280' }}>Tap below to simulate a ride payment.</Text>
-      <View style={{ height: 8 }} />
-      <TouchableOpacity onPress={() => dispatch(createTrip({ route: 'Route A', fareCents: 250 }))} style={{ backgroundColor: '#111827', padding: 14, borderRadius: 10 }}>
-        <Text style={{ color: 'white', textAlign: 'center', fontWeight: '700' }}>Pay $2.50</Text>
+      <TouchableOpacity
+        onPress={() =>
+          dispatch(createTrip({ route: 'Route A', fareCents: 250 }))
+        }
+        className="bg-black p-3 mb-2"
+      >
+        <Text className="text-white text-center">Pay $2.50</Text>
       </TouchableOpacity>
-      <View style={{ height: 12 }} />
-      <Text>Configure NFC in Settings.</Text>
-      {lowBalance ? (
-        <Text style={{ color: '#b91c1c' }}>Low balance. Please top up.</Text>
-      ) : (
-        <Text style={{ color: '#059669' }}>Balance OK.</Text>
-      )}
+      <Text className="text-gray-600">Configure NFC in Settings.</Text>
     </ScreenContainer>
   );
 };
 
+//
+// Trips
+//
 const TripsScreen = () => {
   const trips = useSelector(s => s.trips.recent);
   return (
     <ScreenContainer title="Trips">
       {trips.map(t => (
-        <View key={t.id} style={{ paddingVertical: 12, borderBottomWidth: 1, borderColor: '#e5e7eb' }}>
-          <Text style={{ fontWeight: '700', color: '#111827' }}>{t.route}</Text>
-          <Text style={{ color: '#374151' }}>${(t.fareCents / 100).toFixed(2)} • {new Date(t.timestamp).toLocaleString()}</Text>
-          <Text selectable style={{ color: '#6b7280' }}>Txn: {t.id}</Text>
+        <View key={t.id} className="mb-3">
+          <Text className="font-bold">{t.route}</Text>
+          <Text>
+            ${(t.fareCents / 100).toFixed(2)} •{' '}
+            {new Date(t.timestamp).toLocaleString()}
+          </Text>
+          <Text className="text-gray-500">Txn: {t.id}</Text>
         </View>
       ))}
     </ScreenContainer>
   );
 };
 
-const AlertsScreen = () => {
-  const balanceCents = useSelector(s => s.wallet.balanceCents);
-  const threshold = useSelector(s => s.alerts.lowBalanceThresholdCents);
-  const low = balanceCents <= threshold;
-  return (
-    <ScreenContainer title="Alerts">
-      <Text>Low balance threshold: ${(threshold / 100).toFixed(2)}</Text>
-      <Text style={{ marginTop: 8 }}>Current balance: ${(balanceCents / 100).toFixed(2)}</Text>
-      <Text style={{ marginTop: 8, color: low ? '#b91c1c' : '#059669' }}>{low ? 'Alert: Low balance' : 'All good'}</Text>
-    </ScreenContainer>
-  );
-};
-
-const LoadWalletScreen = () => (
-  <ScreenContainer title="Load Wallet">
-    <Text>Static top-up options (Visa/Mastercard, Mobile Money, Cash agent).</Text>
-  </ScreenContainer>
-);
-
+//
+// Profile
+//
 const ProfileScreen = () => (
   <ScreenContainer title="Profile">
     <Text>Name: Ada Commuter</Text>
@@ -155,35 +155,39 @@ const ProfileScreen = () => (
   </ScreenContainer>
 );
 
+//
+// Settings with UID
+//
 const SettingsScreen = () => {
   const [enabled, setEnabled] = React.useState(false);
+  const [generatedUid, setGeneratedUid] = React.useState(null);
   const userEmail = useSelector(s => s.user.email);
-  const [cardReady, setCardReady] = React.useState(false);
-  const [lastRead, setLastRead] = React.useState(null);
-
-  React.useEffect(() => {
-    (async () => {
-      setCardReady(await hasGeneratedCard(userEmail || 'anonymous'));
-    })();
-  }, [userEmail]);
 
   const onEnableHCE = React.useCallback(async () => {
-    const ensuredUserId = cardReady ? await getOrCreateUserId(userEmail || 'anonymous') : await generateUserCard(userEmail || 'anonymous');
-    const [deviceId, userId] = await Promise.all([
-      getOrCreateDeviceId(),
-      Promise.resolve(ensuredUserId),
-    ]);
+    const ensuredUserId = (await hasGeneratedCard(userEmail))
+      ? await getOrCreateUserId(userEmail)
+      : await generateUserCard(userEmail);
+
+    const deviceId = await getOrCreateDeviceId();
+
+    // UID = simple hex hash from user + device
+    const uid = Buffer.from(`${ensuredUserId}${deviceId}`)
+      .toString('hex')
+      .slice(0, 8);
+
     const tag = new NFCTagType4({
       type: NFCTagType4NDEFContentType.Text,
-      content: `TransitPay | user:${userId} | device:${deviceId}`,
+      content: `UID:${uid}`,
       writable: false,
     });
+
     const session = await HCESession.getInstance();
     await session.setApplication(tag);
     await session.setEnabled(true);
+
     setEnabled(true);
-    setCardReady(true);
-  }, [userEmail, cardReady]);
+    setGeneratedUid(uid);
+  }, [userEmail]);
 
   const onDisableHCE = React.useCallback(async () => {
     const session = await HCESession.getInstance();
@@ -191,41 +195,27 @@ const SettingsScreen = () => {
     setEnabled(false);
   }, []);
 
-  React.useEffect(() => {
-    let remove;
-    (async () => {
-      const session = await HCESession.getInstance();
-      remove = session.on(HCESession.Events.HCE_STATE_READ, () => {
-        setLastRead(new Date().toLocaleString());
-      });
-    })();
-    return () => { if (remove) remove(); };
-  }, []);
-
   return (
     <ScreenContainer title="Settings">
-      <Text style={{ marginBottom: 8 }}>Notifications, Security, About.</Text>
-      <View style={{ height: 8 }} />
-      <Text style={{ fontWeight: '600', marginBottom: 8 }}>NFC</Text>
-      {!cardReady && (
-        <Text style={{ marginBottom: 8 }}>No NFC card yet. Tap Enable to generate.</Text>
-      )}
       {!enabled ? (
-        <TouchableOpacity onPress={onEnableHCE} style={{ backgroundColor: '#059669', padding: 12, borderRadius: 8 }}>
-          <Text style={{ color: 'white', textAlign: 'center' }}>Enable NFC HCE</Text>
+        <TouchableOpacity onPress={onEnableHCE} className="bg-green-600 p-3">
+          <Text className="text-white text-center">Enable NFC HCE</Text>
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity onPress={onDisableHCE} style={{ backgroundColor: '#b91c1c', padding: 12, borderRadius: 8 }}>
-          <Text style={{ color: 'white', textAlign: 'center' }}>Disable NFC HCE</Text>
+        <TouchableOpacity onPress={onDisableHCE} className="bg-red-600 p-3">
+          <Text className="text-white text-center">Disable NFC HCE</Text>
         </TouchableOpacity>
       )}
-      {lastRead && (
-        <Text style={{ marginTop: 8 }}>Last reader access: {lastRead}</Text>
+      {generatedUid && (
+        <Text className="mt-3 text-gray-700">UID: {generatedUid}</Text>
       )}
     </ScreenContainer>
   );
 };
 
+//
+// Tabs
+//
 const MainTabs = () => (
   <Tab.Navigator
     screenOptions={({ route }) => ({
@@ -234,37 +224,53 @@ const MainTabs = () => (
         const map = {
           Transactions: 'credit-card-scan',
           Wallet: 'wallet',
-          'Load Wallet': 'wallet-plus',
+          Trips: 'history',
           Profile: 'account-circle',
           Settings: 'cog',
         };
-        const name = map[route.name] || 'circle';
-        return <Icon name={name} size={size} color={color} />;
+        return (
+          <Icon name={map[route.name] || 'circle'} size={size} color={color} />
+        );
       },
-      tabBarActiveTintColor: '#111827',
-      tabBarInactiveTintColor: '#9ca3af',
+      tabBarActiveTintColor: 'black',
+      tabBarInactiveTintColor: 'gray',
+      tabBarStyle: { backgroundColor: 'white' },
     })}
   >
     <Tab.Screen name="Transactions" component={TransactionsScreen} />
     <Tab.Screen name="Wallet" component={WalletScreen} />
-    <Tab.Screen name="Load Wallet" component={LoadWalletScreen} />
+    <Tab.Screen name="Trips" component={TripsScreen} />
     <Tab.Screen name="Profile" component={ProfileScreen} />
     <Tab.Screen name="Settings" component={SettingsScreen} />
   </Tab.Navigator>
 );
 
+//
+// Root
+//
 const Root = () => {
   const isAuthed = useSelector(s => s.user.isAuthenticated);
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        {!isAuthed ? (
-          <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-        ) : (
-          <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false }} />
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <StatusBar barStyle="dark-content" backgroundColor="white" />
+      <NavigationContainer>
+        <Stack.Navigator>
+          {!isAuthed ? (
+            <Stack.Screen
+              name="Login"
+              component={LoginScreen}
+              options={{ headerShown: false }}
+            />
+          ) : (
+            <Stack.Screen
+              name="MainTabs"
+              component={MainTabs}
+              options={{ headerShown: false }}
+            />
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 };
 
@@ -275,5 +281,3 @@ export default function App() {
     </Provider>
   );
 }
-
-

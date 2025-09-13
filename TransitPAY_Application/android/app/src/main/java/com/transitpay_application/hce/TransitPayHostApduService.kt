@@ -2,6 +2,7 @@ package com.transitpay_application.hce
 
 import android.nfc.cardemulation.HostApduService
 import android.os.Bundle
+import java.nio.charset.StandardCharsets
 
 class TransitPayHostApduService : HostApduService() {
 
@@ -13,7 +14,7 @@ class TransitPayHostApduService : HostApduService() {
     if (commandApdu == null || commandApdu.size < 4) return statusFailed
     return if (commandApdu.copyOfRange(0, 4).contentEquals(selectApduHeader)) {
       // Minimal response APDU data; replace with wallet tokenized data
-      ("TRANSITPAY".toByteArray(Charsets.UTF_8) + statusSuccess)
+      ("TRANSITPAY".toByteArray(StandardCharsets.UTF_8) + statusSuccess)
     } else {
       statusFailed
     }
