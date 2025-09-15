@@ -51,6 +51,7 @@ react {
     // hermesFlags = ["-O", "-output-source-map"]
 
     /* Autolinking */
+    // entryFile = file("../../index.js")
     autolinkLibrariesWithApp()
 }
 

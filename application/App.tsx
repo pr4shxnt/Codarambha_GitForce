@@ -1,45 +1,38 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import React, { useState } from 'react';
 import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+  Button,
+  TextInput,
+  View,
+  NativeModules,
+  StyleSheet,
+} from 'react-native';
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+const { HceModule } = NativeModules;
 
-  return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
-  );
-}
+export default function App() {
+  const [payload, setPayload] = useState('');
 
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
+  const sendToHce = () => {
+    if (payload.trim() !== '') {
+      HceModule.sendPayload(payload);
+      setPayload('');
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
+      <TextInput
+        style={styles.input}
+        placeholder="Enter credential or message"
+        value={payload}
+        onChangeText={setPayload}
       />
+      <Button title="Send to HCE" onPress={sendToHce} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: { flex: 1, justifyContent: 'center', padding: 16 },
+  input: { borderWidth: 1, borderColor: '#ccc', padding: 8, marginBottom: 16 },
 });
-
-export default App;
