@@ -36,19 +36,19 @@ export function Header() {
 
         <nav className="hidden md:flex items-center space-x-8">
           <a
-            href="#features"
+            href="/#features"
             className="text-foreground hover:text-primary transition-colors"
           >
             Features
           </a>
           <a
-            href="#how-it-works"
+            href="/#how-it-works"
             className="text-foreground hover:text-primary transition-colors"
           >
             How It Works
           </a>
           <a
-            href="#support"
+            href="/#support"
             className="text-foreground hover:text-primary transition-colors"
           >
             Support
@@ -60,7 +60,7 @@ export function Header() {
             variant="outline"
             className="hidden sm:inline-flex bg-transparent"
           >
-            Sign In
+            Request a card
           </Button>
           <Button>Get Started</Button>
         </div>
