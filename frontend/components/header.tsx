@@ -37,34 +37,38 @@ export function Header() {
           </div>
         </Link>
         <nav className="hidden md:flex items-center space-x-8">
-          <a
-            href="/#features"
+          <Link
+            href="/"
+            className="text-foreground hover:text-primary transition-colors"
+          >
+            Home
+          </Link>
+          <Link
+            href="/features"
             className="text-foreground hover:text-primary transition-colors"
           >
             Features
-          </a>
-          <a
-            href="/#how-it-works"
+          </Link>
+          <Link
+            href="/how-it-works"
             className="text-foreground hover:text-primary transition-colors"
           >
             How It Works
-          </a>
-          <a
-            href="/#support"
-            className="text-foreground hover:text-primary transition-colors"
-          >
-            Support
-          </a>
+          </Link>
         </nav>
 
         <div className="flex items-center space-x-4">
-          <Button
-            variant="outline"
-            className="hidden sm:inline-flex bg-transparent"
-          >
-            Request a card
-          </Button>
-          <Button>Get Started</Button>
+          <Link href={"/request"}>
+            <Button
+              variant="outline"
+              className="hidden sm:inline-flex bg-transparent"
+            >
+              Request a card
+            </Button>
+          </Link>
+          <Link href={"/register"}>
+            <Button>Get Started</Button>
+          </Link>
         </div>
       </div>
     </header>
