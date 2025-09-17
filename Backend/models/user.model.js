@@ -34,31 +34,39 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    linkedChildren: [
+    linkedWard: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Child",
       },
     ],
-    nfcUID: {
+    nationalId: {
+      type: String,
+      required: true,
+      enum: ["Citizenship", "NID", "Passport", "Driving License"],
+    },
+    nationalIdNumber: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    signature: {
       type: String,
     },
-    HCEUID: {
+    gender: {
       type: String,
+      enum: ["male", "female", "other"],
+    },
+    dateOfBirth: {
+      type: Date,
+      required: true,
     },
   },
   { timestamps: true }
 );
-// Hash password before save if modified
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-  next();
-});
-
-userSchema.methods.comparePassword = async function (candidatePassword) {
-  return bcrypt.compare(candidatePassword, this.password);
-};
 
 module.exports = mongoose.model("User", userSchema);
