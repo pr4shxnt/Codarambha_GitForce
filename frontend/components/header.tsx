@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -24,16 +25,17 @@ export function Header() {
       }`}
     >
       <div className="container w-[95%]  mx-auto px-4 h-18 flex items-center justify-between">
-        <div className="flex items-center">
-          <Image
-            src="/images/transitpay-logo.png"
-            alt="TransitPay Logo"
-            width={180}
-            height={40}
-            className=" w-40 h-auto"
-          />
-        </div>
-
+        <Link href={"/"}>
+          <div className="flex items-center">
+            <Image
+              src="/images/transitpay-logo.png"
+              alt="TransitPay Logo"
+              width={180}
+              height={40}
+              className=" w-40 h-auto"
+            />
+          </div>
+        </Link>
         <nav className="hidden md:flex items-center space-x-8">
           <a
             href="/#features"

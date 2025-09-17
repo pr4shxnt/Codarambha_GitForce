@@ -119,10 +119,10 @@ export function Footer() {
 
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="text-sm text-muted-foreground">
-            © 2024 TransitPay. All rights reserved.
+            © 2025 TransitPay | Codarambha Hackfest.
           </div>
           <div className="text-sm text-muted-foreground">
-            Made with ❤️ for better commutes
+            Made with ❤️ by GitForce.
           </div>
         </div>
       </div>
