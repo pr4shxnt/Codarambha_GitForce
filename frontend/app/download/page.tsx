@@ -70,7 +70,6 @@ function DownloadPage() {
             </p>
             <a
               href="/"
-              download
               className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-black text-white font-medium hover:bg-gray-800 transition"
             >
               Go to
