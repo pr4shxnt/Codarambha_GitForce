@@ -26,7 +26,9 @@
        <service android:name=".KHostApduService"
                  android:exported="true"
                  android:enabled="true"
-                 android:permission="android.permission.BIND_NFC_SERVICE">
+                 android:requireDeviceUnlock="false"
+                 android:permission="android.permission.BIND_NFC_SERVICE"
+                 >
             <intent-filter>
                 <action android:name="android.nfc.cardemulation.action.HOST_APDU_SERVICE"/>
                 <category android:name="android.intent.category.DEFAULT"/>

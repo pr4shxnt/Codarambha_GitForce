@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   TextInput,
@@ -10,26 +10,19 @@ import {
 const { HceModule } = NativeModules;
 
 export default function App() {
-  const [payload, setPayload] = useState('');
+  const [payload, setPayload] = useState('DGSVS343WE3XIA22ESDCDSDSV.  ');
 
-  const sendToHce = () => {
-    if (payload.trim() !== '') {
-      HceModule.sendPayload(payload);
-      setPayload('');
-    }
-  };
+  useEffect(() => {
+    const sendToHce = () => {
+      if (payload.trim() !== '') {
+        HceModule.sendPayload(payload);
+      }
+    };
 
-  return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter credential or message"
-        value={payload}
-        onChangeText={setPayload}
-      />
-      <Button title="Send payload" onPress={sendToHce} />
-    </View>
-  );
+    sendToHce();
+  });
+
+  return <View style={styles.container}></View>;
 }
 
 const styles = StyleSheet.create({
