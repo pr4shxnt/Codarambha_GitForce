@@ -25,6 +25,9 @@ app.get("/", (req, res) => {
   });
 });
 
+app.use("/api/users", require("./routes/user.routes"));
+app.use("/api/wards", require("./routes/ward.routes"));
+
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ message: "Internal server error" });

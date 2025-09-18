@@ -9,6 +9,6 @@ router.post("/create", userController.createUser);
 router.post("/login", userController.login);
 
 // Profile
-router.get("/me", auth, userController.me);
+router.get("/me/:userId", auth, userController.me);
 
 module.exports = router;

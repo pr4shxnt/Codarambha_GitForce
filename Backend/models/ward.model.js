@@ -30,7 +30,13 @@ const wardSchema = new mongoose.Schema({
   nationalId: {
     type: String,
     required: true,
-    enum: ["Citizenship", "NID", "Passport", "Driving License"],
+    enum: [
+      "Citizenship",
+      "Birth Certificate",
+      "Senior citizen ID",
+      "Disability ID",
+      "Adoption Certificate",
+    ],
   },
   nationalIdNumber: {
     type: String,
@@ -56,6 +62,20 @@ const wardSchema = new mongoose.Schema({
   signature: {
     type: String,
     unique: true,
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  phoneNumber: {
+    type: String,
+    unique: true,
+    sparse: true,
+  },
+  password: {
+    type: String,
+    required: true,
   },
 });
 
