@@ -95,14 +95,32 @@ exports.createWard = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const { wardId } = req.body;
-    const updates = req.body;
-    const user = await User.findByIdAndUpdate(userId, updates, { new: true });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+
+    // 1. Find the ward
+    const ward = await Ward.findById(wardId);
+    if (!ward) {
+      return res.status(404).json({ message: "Ward not found" });
     }
+
+    // 2. Find the guardian linked to this ward
+    const user = await User.findById(ward.guardian);
+    if (!user) {
+      return res.status(404).json({ message: "Guardian not found" });
+    }
+
+    // 3. Update guardian's linkedWard array (assuming it's an array of ObjectIds)
+    if (!user.linkedWard.includes(ward._id)) {
+      user.linkedWard.push(ward._id);
+      await user.save();
+    }
+
+    // 4. Return response
     res.json({
+      message: "User updated successfully",
       user: {
-        linkedWard: user.linkedWard.append(wardId),
+        id: user._id,
+        email: user.email,
+        linkedWard: user.linkedWard,
       },
     });
   } catch (error) {
