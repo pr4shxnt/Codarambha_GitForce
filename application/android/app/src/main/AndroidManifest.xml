@@ -26,7 +26,6 @@
        <service android:name=".KHostApduService"
                  android:exported="true"
                  android:enabled="true"
-                 android:requireDeviceUnlock="false"
                  android:permission="android.permission.BIND_NFC_SERVICE"
                  >
             <intent-filter>
