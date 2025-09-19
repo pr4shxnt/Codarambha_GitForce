@@ -4,87 +4,115 @@ import {
   TextInput,
   View,
   NativeModules,
-  StyleSheet,
   Text,
   TouchableOpacity,
   Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import './global.css';
 
 const { HceModule } = NativeModules;
 
 export default function App() {
   const [payload, setPayload] = useState('DGSVS343WE3XIA22ESDCDSDSV.  ');
+  const [defaultLang, setDefaultLang] = useState({
+    label: 'English',
+    value: 'en',
+  });
+  const [langModel, setLangModel] = useState(true);
 
-  useEffect(() => {
-    HceModule.sendPayload(payload);
-  }, [payload]);
+  console.log(defaultLang);
+  console.log(langModel);
+  const languages = [
+    {
+      label: 'English',
+      value: 'en',
+    },
+    {
+      label: 'Nepali',
+      value: 'np',
+    },
+  ];
+
+  // useEffect(() => {
+  //   HceModule.sendPayload(payload);
+  // }, [payload]);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#000000ff' }}>
-      <View style={styles.container}>
-        <Image
-          source={require('./components/assets/apppicon.png')}
-          style={{
-            width: 200,
-            height: 200,
-            alignSelf: 'center',
-            marginTop: 50,
-            borderRadius: 20,
-          }}
-          resizeMode="contain"
-        />
+    <SafeAreaView className="flex-1 bg-black">
+      <View className="flex-1">
+        <View className="flex-1 items-center justify-between bg-white p-4">
+          <View>
+            <Image
+              source={require('./components/assets/apppicon.png')}
+              className="mt-12 h-52 w-52 self-center rounded-xl"
+              resizeMode="contain"
+            />
+            <TouchableOpacity
+              onPress={() => {
+                setLangModel(!langModel);
+                console.log(langModel);
+              }}
+              className="mb-2 w-[60%] flex-row items-center justify-between rounded-full bg-gray-100 p-5 px-7"
+            >
+              <View>
+                <Text className="text-xl font-semibold">
+                  {defaultLang.label}
+                </Text>
+              </View>
+              <View className="flex-row items-center gap-2">
+                <View>
+                  <Text className="text-xl font-light">
+                    {defaultLang.value}
+                  </Text>
+                </View>
+                {langModel ? (
+                  <Icon name="chevron-up" size={16} color="black" />
+                ) : (
+                  <Icon name="chevron-down" size={16} color="black" />
+                )}
+              </View>
+            </TouchableOpacity>
+          </View>
 
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingBottom: 50,
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              marginBottom: 10,
-              backgroundColor: '#5271FF',
-              paddingVertical: 40,
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: 'auto',
-              aspectRatio: 1,
-              alignSelf: 'center',
-              borderRadius: '50%',
-            }}
-          >
-            <Icon name="chevron-right" size={24} color="white" />
-          </TouchableOpacity>
-          <Text>Continue</Text>
+          <View className="items-center justify-center pb-12">
+            <TouchableOpacity className="mb-2 h-24 w-24 flex-row items-center justify-center rounded-full bg-blue-500 p-10">
+              <Icon name="chevron-right" size={16} color="white" />
+            </TouchableOpacity>
+            <Text className="text-center text-black">Continue</Text>
+          </View>
         </View>
       </View>
+      {langModel && (
+        <View className="absolute inset-0 top-1/2 h-auto rounded-t-[40px]  bg-blue-50 shadow-2xl">
+          <Text className="pt-16 text-center text-2xl font-bold tracking-wide text-gray-500">
+            Select a Language:
+          </Text>
+          <View className="mt-20 h-full flex-col items-center gap-5">
+            {languages.map(lang => {
+              return (
+                <View key={lang.value} className="w-[90%]">
+                  <TouchableOpacity
+                    onPress={() => {
+                      setDefaultLang(lang);
+                      setLangModel(false);
+                    }}
+                    className="flex-row items-center justify-center gap-x-4 border-b-[0.5px] border-black bg-blue-50  px-20 py-4  "
+                  >
+                    <Text className=" text-xl font-semibold text-gray-500">
+                      {lang.label}
+                    </Text>
+                    <Text className=" text-xl font-semibold text-gray-500">
+                      ({lang.value})
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              );
+            })}
+          </View>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    padding: 16,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 8,
-    marginVertical: 16,
-  },
-  text: {
-    color: 'white',
-    fontSize: 13,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-});
