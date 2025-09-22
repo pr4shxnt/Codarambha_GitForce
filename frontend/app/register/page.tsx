@@ -43,7 +43,7 @@ function RegisterPage() {
     setMessage("");
     try {
       const response = await axios.post(
-        "http://localhost:3500/api/users/create",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/users/create`,
         formData
       );
       setMessage("Registration successful! Please check your email.");
