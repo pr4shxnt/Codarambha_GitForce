@@ -27,6 +27,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/users", require("./routes/user.routes"));
 app.use("/api/wards", require("./routes/ward.routes"));
+app.use("/api/card-requests", require("./routes/card.request.routes"));
 
 app.use((err, req, res, next) => {
   console.error(err);
