@@ -44,6 +44,12 @@ exports.createCardRequest = async (req, res) => {
       return res.status(404).json({ message: `${requesterType} not found` });
     }
 
+    if (!requester.isVerified) {
+      return res
+        .status(403)
+        .json({ message: `Your KYC is still under verification.` });
+    }
+
     const requesterId = requester._id;
 
     // Prevent duplicate pending requests
