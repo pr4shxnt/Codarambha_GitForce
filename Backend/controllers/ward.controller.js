@@ -130,6 +130,3 @@ exports.updateUser = async (req, res) => {
 
 
 
-exports.getWalletBalance = async (req, res) =>{
-  // will do it tomorrow this is just for not ending my contribution streak. Hope it wont be counted as cheating. 😂
-}
