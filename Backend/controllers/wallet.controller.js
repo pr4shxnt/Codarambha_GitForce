@@ -6,7 +6,7 @@ exports.getWalletBalance = async (req, res) => {
     const { token } = req.body;
 
     // uncomment this on prod
-    //  jwt.verify(token, process.env.TRANSITPAY_TOKEN_GENERATION_SECRET);
+    jwt.verify(token, process.env.TRANSITPAY_TOKEN_GENERATION_SECRET);
 
     const decoded = jwt.decode(token);
 
