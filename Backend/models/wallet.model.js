@@ -12,9 +12,10 @@ const walletSchema = new mongoose.Schema(
       enum: ["User", "Org", "Ward"],
       required: true,
     },
+    // refPath must be the string name of the path holding the model name
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      refPath: userType,
+      refPath: "userType",
       required: true,
     },
     history: [
@@ -36,8 +37,12 @@ const walletSchema = new mongoose.Schema(
         },
       },
     ],
+    currency: { type: String, default: "NPR" },
   },
   { timestamps: true }
 );
+
+// ensure unique wallet per owner
+walletSchema.index({ userType: 1, userId: 1 }, { unique: true });
 
 module.exports = mongoose.model("Wallet", walletSchema);
