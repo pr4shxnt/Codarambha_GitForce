@@ -14,7 +14,7 @@ const walletSchema = new mongoose.Schema(
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      refPath: userType,
+      refPath: "userType",
       required: true,
     },
     history: [
