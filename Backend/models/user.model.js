@@ -11,6 +11,25 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    roles: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Role',
+      required: true
+    }],
+    permissions: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Permission'
+    }],
+    active: {
+      type: Boolean,
+      default: true
+    },
+    lastLogin: Date,
+    loginAttempts: {
+      count: { type: Number, default: 0 },
+      lastAttempt: Date,
+      lockedUntil: Date
+    },
     password: {
       type: String,
       required: true,
