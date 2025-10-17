@@ -14,4 +14,6 @@ router.get("/:walletId", auth, walletController.getWalletBalance);
 // topup stub
 // router.post("/:walletId/topup", auth, walletController.topupStub);
 
+
+// create all the controller before routing through this route. You are giving heart attacks to my deployment. 
 module.exports = router;
