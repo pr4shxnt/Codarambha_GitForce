@@ -1,4 +1,4 @@
-# 🚍 TransitPAY – Smart Fare Management Ecosystem for Public Transport in Nepal
+# 🚍 TransitPAY – Revolutionize Your Digital Commute
 
 [![Node.js](https://img.shields.io/badge/Node.js-18.x-brightgreen)](https://nodejs.org/)
 [![React Native](https://img.shields.io/badge/React%20Native-0.7x-blue)](https://reactnative.dev/)
@@ -179,7 +179,7 @@ FIREBASE_CONFIG=...
 | Name                  | Role                                 |
 | --------------------- | ------------------------------------ |
 | **Prashant Adhikari** | Lead Developer / Architect           |
-| Team Git Force       | Backend, App, and Hardware Engineers |
+| Team Git Force        | Backend, App, and Hardware Engineers |
 
 ---
 
