@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 **TransitPAY** is a digital fare collection ecosystem designed to modernize Nepal’s public transportation system.  
-It combines **NFC-based tap-in/tap-out technology**, **mobile wallet integration**, **real-time analytics**, and **reward systems** — ensuring transparency, inclusivity, and efficiency for passengers and operators.
+It combines **NFC-based tap-in/tap-out technology**, **mobile wallet integration** and **real-time analytics**,— ensuring transparency, inclusivity, and efficiency for passengers and operators.
 
 ---
 
