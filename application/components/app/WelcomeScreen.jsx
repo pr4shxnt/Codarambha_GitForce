@@ -8,8 +8,9 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import "../../global.css";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {ChevronDown, ChevronRight, ChevronUp} from "lucide-react-native"
 
 const { HceModule } = NativeModules;
 
@@ -67,18 +68,17 @@ export default function WelcomeScreen() {
                   </Text>
                 </View>
                 {langModel ? (
-                  <Icon name="chevron-up" size={16} color="black" />
+                  <ChevronUp/>
                 ) : (
-                  <Icon name="chevron-down" size={16} color="black" />
-                )}
+                  <ChevronDown/>)}
               </View>
             </TouchableOpacity>
           </View>
 
           <View className="items-center justify-center pb-12">
             <TouchableOpacity className="mb-2 h-24 w-24 flex-row items-center justify-center rounded-full bg-blue-500 p-10">
-              <Icon name="chevron-right" size={16} color="white" />
-            </TouchableOpacity>
+                    <ChevronRight size={30} color="white"/>
+                </TouchableOpacity>
             <Text className="text-center text-black">Continue</Text>
           </View>
         </View>

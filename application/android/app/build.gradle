@@ -109,12 +109,7 @@ android {
 
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
-    apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
     implementation("com.facebook.react:react-android")
-    implementation('androidx.constraintlayout:constraintlayout:2.1.4')
-    implementation('com.google.android.material:material:1.9.0')
-    
-
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

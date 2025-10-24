@@ -7,8 +7,9 @@ import Login from './components/form/Login';
 
 const App = () => {
   return (
-    <SafeAreaView className="flex-1  bg-black">
+    <SafeAreaView className="flex-1 bg-black">
       <View className="flex-1">
+        {/* <WelcomeScreen/> */}
         <Login />
       </View>
     </SafeAreaView>

@@ -6,11 +6,11 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import android.widget.Toast
 
-class HceModule(reactContext: ReactApplicationContext) :
+class HCEModule(reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
 
     override fun getName(): String {
-        return "HceModule"
+        return "HCEModule"
     }
 
     @ReactMethod
@@ -20,6 +20,6 @@ class HceModule(reactContext: ReactApplicationContext) :
         intent.putExtra("ndefMessage", payload)
         context.startService(intent)
 
-        Toast.makeText(context, "Payload sent to HCE: $payload", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "NDEF message set: $payload", Toast.LENGTH_SHORT).show()
     }
 }

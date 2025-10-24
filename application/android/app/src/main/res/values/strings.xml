@@ -1,13 +1,4 @@
 <resources>
-    <string name="app_name">TransitPay</string>
-<string name="confirm">Confirm</string>
-<string name="edit_text_hint">Enter your message</string>
-<string name="toast_msg">Please enter a message</string>
-<string name="tv_noNfc">NFC not available</string>
-<string name="ad_nfcTurnOn_title">Turn on NFC</string>
-<string name="ad_nfcTurnOn_message">Please turn on NFC to use this feature.</string>
-<string name="ad_nfcTurnOn_pos">Settings</string>
-<string name="ad_nfcTurnOn_neg">Cancel</string>
-<string name="servicedesc">TransitPay HCE Service</string>
-<string name="aiddescription">TransitPay AID Group</string>
+    <string name="app_name">transitpay</string>
+    <string name="hce_service_description">TransitPay HCE Service</string>
 </resources>
