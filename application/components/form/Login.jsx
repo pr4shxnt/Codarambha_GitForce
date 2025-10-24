@@ -7,6 +7,7 @@ import {
   Switch,
 } from 'react-native';
 import React, { useState } from 'react';
+import '../../global.css';
 
 const Login = () => {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -43,7 +44,7 @@ const Login = () => {
           <Text className="mb-1 font-medium text-gray-700">Password</Text>
           <TextInput
             placeholder="Enter password"
-            secureTextEntry
+            ecureTextEntry={true}
             className="rounded-xl border border-gray-300 px-3 py-3 text-black"
             placeholderTextColor="gray"
           />
