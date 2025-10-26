@@ -9,8 +9,8 @@ const App = () => {
   return (
     <SafeAreaView className="flex-1 bg-black">
       <View className="flex-1">
-        {/* <WelcomeScreen/> */}
-        <Login />
+        <WelcomeScreen/>
+        {/* <Login /> */}
       </View>
     </SafeAreaView>
   );

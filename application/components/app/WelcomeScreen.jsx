@@ -12,7 +12,7 @@ import "../../global.css";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {ChevronDown, ChevronRight, ChevronUp} from "lucide-react-native"
 
-const { HceModule } = NativeModules;
+const { HCEModule } = NativeModules;
 
 export default function WelcomeScreen() {
   const [payload, setPayload] = useState('DGSVS343WE3XIA22ESDCDSDSV.  ');
@@ -35,9 +35,9 @@ export default function WelcomeScreen() {
     },
   ];
 
-  // useEffect(() => {
-  //   HceModule.sendPayload(payload);
-  // }, [payload]);
+  useEffect(() => {
+    HCEModule.sendPayload(payload);
+  }, [payload]);
 
   return (
     <View className="flex-1">
