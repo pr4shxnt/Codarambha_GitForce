@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Button,
-  TextInput,
   View,
   NativeModules,
   Text,
