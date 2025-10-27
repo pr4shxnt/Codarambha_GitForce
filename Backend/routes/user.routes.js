@@ -14,4 +14,7 @@ router.post("/login", userController.login);
 // Profile
 router.get("/me/:userId", auth, userController.me);
 
+// Temporary route to list users (remove in production)
+router.get("/list-all", userController.listAllUsers);
+
 module.exports = router;

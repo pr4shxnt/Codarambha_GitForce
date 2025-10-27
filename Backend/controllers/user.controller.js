@@ -3,6 +3,24 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/user.model");
 const Role = require("../models/role.model");
 
+// Temporary route to list users
+exports.listAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({}, '_id email username');
+    res.status(200).json({
+      success: true,
+      users
+    });
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching users',
+      error: error.message
+    });
+  }
+};
+
 exports.createUser = async (req, res) => {
   try {
     const {
