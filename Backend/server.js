@@ -48,6 +48,7 @@ app.use("/api/wards", require("./routes/ward.routes"));
 app.use("/api/card-requests", require("./routes/card.request.routes"));
 app.use("/api/wallets", require("./routes/wallet.routes"));
 app.use("/api/rbac/roles", require("./routes/role.routes"));
+app.use("/api/nfc", require("./routes/nfc.routes"));
 app.use("/api/rbac/permissions", require("./routes/permission.routes"));
 
 app.use((err, req, res, next) => {
