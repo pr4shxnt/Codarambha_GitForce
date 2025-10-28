@@ -1,23 +1,26 @@
-import { Card, CardContent } from "@/components/ui/card"
-import { UserPlus, CreditCard, Smartphone, ArrowRight } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card";
+import { UserPlus, CreditCard, Smartphone, ArrowRight } from "lucide-react";
 
 const steps = [
   {
     icon: UserPlus,
     title: "Register",
-    description: "Sign up for your TransitPay account in minutes. Verify your identity and you're ready to go.",
+    description:
+      "Sign up for your TransitPay account in minutes. Verify your identity and you're ready to go.",
   },
   {
     icon: CreditCard,
     title: "Top-up Wallet",
-    description: "Add funds to your digital wallet using your bank account, credit card, or mobile payment.",
+    description:
+      "Add funds to your digital wallet using your bank account, credit card, or mobile payment.",
   },
   {
     icon: Smartphone,
     title: "Tap to Pay",
-    description: "Simply tap your NFC card or phone on any transit reader. Your fare is automatically deducted.",
+    description:
+      "Simply tap your NFC card or phone on any transit reader. Your fare is automatically deducted.",
   },
-]
+];
 
 export function HowItWorksSection() {
   return (
@@ -28,7 +31,8 @@ export function HowItWorksSection() {
             How It <span className="text-primary">Works</span>
           </h2>
           <p className="text-xl text-muted-foreground text-pretty max-w-2xl mx-auto">
-            Getting started with TransitPay is simple. Follow these three easy steps to transform your commute.
+            Getting started with TransitPay is simple. Follow these three easy
+            steps to transform your commute.
           </p>
         </div>
 
@@ -41,16 +45,20 @@ export function HowItWorksSection() {
                     <step.icon className="h-8 w-8 text-primary" />
                   </div>
                   <div className="space-y-3">
-                    <div className="text-sm font-medium text-primary">Step {index + 1}</div>
+                    <div className="text-sm font-medium text-primary">
+                      Step {index + 1}
+                    </div>
                     <h3 className="text-xl font-semibold">{step.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed">{step.description}</p>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {step.description}
+                    </p>
                   </div>
                 </CardContent>
               </Card>
 
               {/* Arrow between steps */}
               {index < steps.length - 1 && (
-                <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
+                <div className="hidden md:block absolute top-1/2 -right-7 transform -translate-y-1/2 z-10">
                   <ArrowRight className="h-6 w-6 text-muted-foreground" />
                 </div>
               )}
@@ -59,5 +67,5 @@ export function HowItWorksSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

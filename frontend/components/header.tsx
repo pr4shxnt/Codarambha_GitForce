@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -24,45 +25,50 @@ export function Header() {
       }`}
     >
       <div className="container w-[95%]  mx-auto px-4 h-18 flex items-center justify-between">
-        <div className="flex items-center">
-          <Image
-            src="/images/transitpay-logo.png"
-            alt="TransitPay Logo"
-            width={180}
-            height={40}
-            className=" w-40 h-auto"
-          />
-        </div>
-
+        <Link href={"/"}>
+          <div className="flex items-center">
+            <Image
+              src="/images/transitpay-logo.png"
+              alt="TransitPay Logo"
+              width={180}
+              height={40}
+              className=" w-40 h-auto"
+            />
+          </div>
+        </Link>
         <nav className="hidden md:flex items-center space-x-8">
-          <a
-            href="#features"
+          <Link
+            href="/"
+            className="text-foreground hover:text-primary transition-colors"
+          >
+            Home
+          </Link>
+          <Link
+            href="/features"
             className="text-foreground hover:text-primary transition-colors"
           >
             Features
-          </a>
-          <a
-            href="#how-it-works"
+          </Link>
+          <Link
+            href="/how-it-works"
             className="text-foreground hover:text-primary transition-colors"
           >
             How It Works
-          </a>
-          <a
-            href="#support"
-            className="text-foreground hover:text-primary transition-colors"
-          >
-            Support
-          </a>
+          </Link>
         </nav>
 
         <div className="flex items-center space-x-4">
-          <Button
-            variant="outline"
-            className="hidden sm:inline-flex bg-transparent"
-          >
-            Sign In
-          </Button>
-          <Button>Get Started</Button>
+          <Link href={"/request"}>
+            <Button
+              variant="outline"
+              className="hidden sm:inline-flex bg-transparent"
+            >
+              Request a card
+            </Button>
+          </Link>
+          <Link href={"/register"}>
+            <Button>Get Started</Button>
+          </Link>
         </div>
       </div>
     </header>

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">transitpay</string>
+    <string name="hce_service_description">TransitPay HCE Service</string>
+</resources>
