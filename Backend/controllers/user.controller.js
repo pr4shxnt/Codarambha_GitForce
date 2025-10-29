@@ -77,24 +77,24 @@ exports.createUser = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log(req.body);
+    if (!email || !password  || typeof email !== "string" || typeof password !== "string") {
+      return res.status(400).json({ message: "Credentials Tampered" });
+    }
     const user = await User.findOne({ email });
     if (!user) return res.status(401).json({ message: "Invalid credentials" });
     const ok = await bcrypt.compare(password, user.password);
+    // const ok = password === user.password; // Temporary plain text check (to be replaced with hashed check)
     if (!ok) return res.status(401).json({ message: "Invalid credentials" });
     const token = jwt.sign(
       { id: user._id },
-      process.env.JWT_SECRET || "dev_secret",
-      { expiresIn: "7d" }
+      process.env.JWT_SECRET,
+      { expiresIn: "30d" }
     );
-    res.json({
+    res.status(200).json({
+      status: "success",
       user: {
         id: user._id,
-        username: user.username,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        phoneNumber: user.phoneNumber,
-        address: user.address,
       },
       token,
     });

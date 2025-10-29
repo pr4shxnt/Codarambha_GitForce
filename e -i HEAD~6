@@ -1,0 +1,71 @@
+[33mcommit c8917bf06340e2fb31319b36eebb68e9e1c1a509[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: pr4shxnt <student@prashantadhiari7.com.np>
+Commit: pr4shxnt <student@prashantadhiari7.com.np>
+
+    application: update on typo
+
+[33mcommit c938fa35fbbe73d35ae9c21cfbb6e7ea7c6a44fd[m
+Author: Prashant Adhikari <student@prashantadhiari7.com.np>
+Commit: Prashant Adhikari <student@prashantadhiari7.com.np>
+
+    application: root changed
+
+[33mcommit 80c71d035dfed64b2950113b24e945b42607dba1[m
+Author: Prashant Adhikari <130303397+pr4shxnt@users.noreply.github.com>
+Commit: GitHub <noreply@github.com>
+
+    Update README.md
+
+[33mcommit e223b4520d9fd15f6698755de39be7149c135caf[m
+Author: Prashant Adhikari <prashantadhikareeey@gmail.com>
+Commit: Prashant Adhikari <prashantadhikareeey@gmail.com>
+
+    application: update login page
+
+[33mcommit 7b57463cc69c427d5cb7f36587039c7e8e27a54f[m
+Author: Prashant Adhikari <prashantadhikareeey@gmail.com>
+Commit: Prashant Adhikari <prashantadhikareeey@gmail.com>
+
+    add README.md
+
+[33mcommit e631f111ba1b1c521ebbf22c588506160289d01b[m
+Author: Prashant Adhikari <prashantadhikareeey@gmail.com>
+Commit: Prashant Adhikari <prashantadhikareeey@gmail.com>
+
+    add README.md
+
+[33mcommit b38f734592d5f546c3b9087053dc14f330eb0202[m
+Author: Prashant Adhikari <prashantadhikareeey@gmail.com>
+Commit: Prashant Adhikari <prashantadhikareeey@gmail.com>
+
+    welcome screen and login page creation
+
+[33mcommit fd214e8074c65773af53e5919adb8c99b0673388[m
+Author: Prashant Adhikari <prashantadhikareeey@gmail.com>
+Commit: Prashant Adhikari <prashantadhikareeey@gmail.com>
+
+    backend: kyc verification feature add
+
+[33mcommit 3c863e1452cf854c04df135ec99e44a7d4ff924a[m
+Author: Prashant Adhikari <prashantadhikareeey@gmail.com>
+Commit: Prashant Adhikari <prashantadhikareeey@gmail.com>
+
+    backend: ntg
+
+[33mcommit bf81105243e49421a0d4338e0c0736fb0266083f[m
+Author: Prashant Adhikari <prashantadhikareeey@gmail.com>
+Commit: Prashant Adhikari <prashantadhikareeey@gmail.com>
+
+    backend: lint errors solved
+
+[33mcommit fb83d432848ab85e7718d5c407060abab732592f[m
+Author: Prashant Adhikari <prashantadhikareeey@gmail.com>
+Commit: Prashant Adhikari <prashantadhikareeey@gmail.com>
+
+    backend: deployment error fixed
+
+[33mcommit 98cf2ba81b5201b969b668c9f30e703b3c824fa0[m
+Author: Prashant Adhikari <prashantadhikareeey@gmail.com>
+Commit: Prashant Adhikari <prashantadhikareeey@gmail.com>
+
+    wallet uncomment
