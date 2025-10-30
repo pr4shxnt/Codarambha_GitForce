@@ -3,6 +3,7 @@ const CardRequest = require("../models/card.request.model");
 const User = require("../models/user.model");
 const Org = require("../models/org.model");
 const Ward = require("../models/ward.model");
+const bcrypt = require("bcryptjs");
 
 // Create a new card request
 exports.createCardRequest = async (req, res) => {
@@ -10,6 +11,7 @@ exports.createCardRequest = async (req, res) => {
     const { requesterType, username, password, fullName, dateOfBirth } =
       req.body;
 
+    console.log(req.body);
     if (!requesterType || !username || !password) {
       return res.status(400).json({
         message: "Requester type, username, and password are required",
@@ -21,7 +23,6 @@ exports.createCardRequest = async (req, res) => {
     }
 
     let requester;
-
     const firstName = fullName?.split(" ")[0];
     const lastName = fullName?.split(" ")[1] || "";
 
@@ -29,19 +30,38 @@ exports.createCardRequest = async (req, res) => {
     if (requesterType === "User") {
       requester = await User.findOne({
         username,
-        password,
         firstName,
         lastName,
         dateOfBirth,
       });
+
+      const ok = await bcrypt.compare(password, requester.password);
+
+      if (!ok) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+
     } else if (requesterType === "Org") {
-      requester = await Org.findOne({ username, password, name: fullName });
+      requester = await Org.findOne({ username, name: fullName });
+
+      const ok = await bcrypt.compare(password, requester.password);
+
+      if (!ok) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
     } else if (requesterType === "Ward") {
-      requester = await Ward.findOne({ username, password, name: fullName });
+      requester = await Ward.findOne({ username, name: fullName });
+
+      const ok = await bcrypt.compare(password, requester.password);
+
+      if (!ok) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+
     }
 
     if (!requester) {
-      return res.status(404).json({ message: `${requesterType} not found` });
+      return res.status(404).json({ message: `${requesterType} not found v1` });
     }
 
     if (!requester.isVerified) {
