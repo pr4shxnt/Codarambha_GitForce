@@ -91,6 +91,7 @@ exports.login = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "30d" }
     );
+    
     res.status(200).json({
       status: "success",
       user: {
