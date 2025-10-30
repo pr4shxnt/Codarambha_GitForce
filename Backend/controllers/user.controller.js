@@ -38,11 +38,18 @@ exports.createUser = async (req, res) => {
     const existing = await User.findOne({ email });
     if (existing)
       return res.status(409).json({ message: "Email already registered" });
-    const hashed = await bcrypt.hash(password, 10);
+    
+    // Get the default rider role
+    const riderRole = await Role.findOne({ name: 'rider' });
+    if (!riderRole) {
+      console.error('Default rider role not found');
+      return res.status(500).json({ message: "Error creating user - role not found" });
+    }
+
     const newUser = new User({
       username,
       email,
-      password: hashed,
+      password, // Let the pre-save hook handle hashing
       firstName,
       lastName,
       phoneNumber,
@@ -50,6 +57,7 @@ exports.createUser = async (req, res) => {
       dateOfBirth,
       nationalId,
       nationalIdNumber,
+      roles: [riderRole._id] // Assign the default rider role
     });
     await newUser.save();
     const token = jwt.sign(
@@ -77,18 +85,37 @@ exports.createUser = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(req.body);
-    if (!email || !password  || typeof email !== "string" || typeof password !== "string") {
+    console.log('Login attempt for email:', email);
+    
+    if (!email || !password || typeof email !== "string" || typeof password !== "string") {
+      console.log('Invalid input types:', { email: typeof email, password: typeof password });
       return res.status(400).json({ message: "Credentials Tampered" });
     }
+
     const user = await User.findOne({ email });
-    if (!user) return res.status(401).json({ message: "Invalid credentials" });
-    const ok = await bcrypt.compare(password, user.password);
-    // const ok = password === user.password; // Temporary plain text check (to be replaced with hashed check)
-    if (!ok) return res.status(401).json({ message: "Invalid credentials" });
+    if (!user) {
+      console.log('User not found for email:', email);
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    console.log('User found:', { 
+      email: user.email, 
+      hasPassword: !!user.password
+    });
+
+    try {
+      const isMatch = await user.comparePassword(password);
+      if (!isMatch) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+    } catch (error) {
+      console.error('Password comparison error:', error);
+      return res.status(500).json({ message: "Error verifying credentials" });
+    }
+
     const token = jwt.sign(
       { id: user._id },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET || 'dev_secret',
       { expiresIn: "30d" }
     );
     res.status(200).json({
