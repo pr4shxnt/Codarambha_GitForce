@@ -12,7 +12,7 @@ import {ChevronDown, ChevronRight, ChevronUp} from "lucide-react-native"
 
 const { HCEModule } = NativeModules;
 
-export default function WelcomeScreen() {
+export default function WelcomeScreen({navigation}) {
   const [payload, setPayload] = useState('DGSVS343WE3XIA22ESDCDSDSV.  ');
   const [defaultLang, setDefaultLang] = useState({
     label: 'English',
@@ -74,7 +74,7 @@ export default function WelcomeScreen() {
           </View>
 
           <View className="items-center justify-center pb-12">
-            <TouchableOpacity className="mb-2 h-24 w-24 flex-row items-center justify-center rounded-full bg-blue-500 p-10">
+            <TouchableOpacity onPress={()=> navigation.navigate("Login")} className="mb-2 h-24 w-24 flex-row items-center justify-center rounded-full bg-blue-500 p-10">
                     <ChevronRight size={30} color="white"/>
                 </TouchableOpacity>
             <Text className="text-center text-black">Continue</Text>
