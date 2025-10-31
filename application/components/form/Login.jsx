@@ -55,9 +55,6 @@ const Login = ({ navigation }) => {
       Alert.alert('Login Successful', `Welcome back!`);
       console.log('User Data:', data);
 
-      // Example: navigate to home
-      // navigation.navigate('Home');
-
       // Example: store token in AsyncStorage
       await AsyncStorage.setItem('token', data.token);
 
