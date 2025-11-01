@@ -1,5 +1,6 @@
 "use client";
-import React, { FormEventHandler, useState } from "react";
+
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import {
   User,
   Mail,
@@ -12,8 +13,21 @@ import {
 } from "lucide-react";
 import axios from "axios";
 
+interface FormData {
+  username: string;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  address: string;
+  dateOfBirth: string;
+  nationalId: string;
+  nationalIdNumber: string;
+}
+
 function RegisterPage() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     username: "",
     email: "",
     password: "",
@@ -26,26 +40,25 @@ function RegisterPage() {
     nationalIdNumber: "",
   });
 
-  console.log(formData);
-
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement | HTMLOptionElement>
-  ) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
+
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/users/create`,
         formData
       );
+
       setMessage("Registration successful! Please check your email.");
       setFormData({
         username: "",
@@ -59,15 +72,21 @@ function RegisterPage() {
         nationalId: "",
         nationalIdNumber: "",
       });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        setMessage(
+          error.response?.data?.message ||
+            "An error occurred. Please try again."
+        );
+      } else {
+        setMessage("An unexpected error occurred.");
+      }
+    } finally {
       setLoading(false);
-    } catch (error: any) {
-      setMessage(
-        error.response?.data?.message || "An error occurred. Please try again."
-      );
-      setLoading(false);
-      console.error("Registration error:", error);
     }
   };
+
   return (
     <div className="min-h-screen relative bg-white text-gray-900">
       {/* Background subtle grid */}
@@ -90,137 +109,50 @@ function RegisterPage() {
           onSubmit={handleSubmit}
           className="p-8 bg-gray-100 rounded-2xl shadow-md space-y-6"
         >
-          {/* Grid fields */}
           <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <label className="flex items-center gap-2 text-sm font-medium mb-1">
-                <User className="w-4 h-4" /> Username
-              </label>
-              <input
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
-              />
-            </div>
-
-            <div>
-              <label className="flex items-center gap-2 text-sm font-medium mb-1">
-                <Mail className="w-4 h-4" /> Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
-              />
-            </div>
-
-            <div>
-              <label className="flex items-center gap-2 text-sm font-medium mb-1">
-                <Lock className="w-4 h-4" /> Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
-              />
-            </div>
-
-            <div>
-              <label className="flex items-center gap-2 text-sm font-medium mb-1">
-                <User className="w-4 h-4" /> First Name
-              </label>
-              <input
-                type="text"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
-              />
-            </div>
-
-            <div>
-              <label className="flex items-center gap-2 text-sm font-medium mb-1">
-                <User className="w-4 h-4" /> Last Name
-              </label>
-              <input
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
-              />
-            </div>
-
-            <div>
-              <label className="flex items-center gap-2 text-sm font-medium mb-1">
-                <Phone className="w-4 h-4" /> Phone Number
-              </label>
-              <input
-                type="text"
-                name="phoneNumber"
-                value={formData.phoneNumber}
-                onChange={handleChange}
-                className="w-full px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
-              />
-            </div>
-
-            <div>
-              <label className="flex items-center gap-2 text-sm font-medium mb-1">
-                <MapPin className="w-4 h-4" /> Address
-              </label>
-              <input
-                type="text"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                className="w-full px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
-              />
-            </div>
-
-            <div>
-              <label className="flex items-center gap-2 text-sm font-medium mb-1">
-                <Calendar className="w-4 h-4" /> Date of Birth
-              </label>
-              <input
-                type="date"
-                name="dateOfBirth"
-                value={formData.dateOfBirth}
-                onChange={handleChange}
-                className="w-full px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
-              />
-            </div>
-
-            <div>
-              <>
+            {[
+              { label: "Username", name: "username", icon: <User />, type: "text" },
+              { label: "Email", name: "email", icon: <Mail />, type: "email" },
+              { label: "Password", name: "password", icon: <Lock />, type: "password" },
+              { label: "First Name", name: "firstName", icon: <User />, type: "text" },
+              { label: "Last Name", name: "lastName", icon: <User />, type: "text" },
+              { label: "Phone Number", name: "phoneNumber", icon: <Phone />, type: "text" },
+              { label: "Address", name: "address", icon: <MapPin />, type: "text" },
+              { label: "Date of Birth", name: "dateOfBirth", icon: <Calendar />, type: "date" },
+            ].map(({ label, name, icon, type }) => (
+              <div key={name}>
                 <label className="flex items-center gap-2 text-sm font-medium mb-1">
-                  <IdCard className="w-4 h-4" /> National ID
+                  {icon} {label}
                 </label>
-                <select
-                  name="nationalId"
-                  value={formData.nationalId}
-                  onChange={(e) =>
-                    setFormData({ ...formData, nationalId: e.target.value })
-                  }
+                <input
+                  type={type}
+                  name={name}
+                  value={formData[name as keyof FormData]}
+                  onChange={handleChange}
+                  required={["username", "email", "password", "firstName", "lastName"].includes(
+                    name
+                  )}
                   className="w-full px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
-                >
-                  <option value="" disabled></option>
-                  <option value="passport">Passport</option>
-                  <option value="Driving License">Driver's License</option>
-                  <option value="Citizenship">Citizenship</option>
-                  <option value="NID">National Identity Number</option>
-                </select>
-              </>
+                />
+              </div>
+            ))}
+
+            <div>
+              <label className="flex items-center gap-2 text-sm font-medium mb-1">
+                <IdCard className="w-4 h-4" /> National ID
+              </label>
+              <select
+                name="nationalId"
+                value={formData.nationalId}
+                onChange={handleChange}
+                className="w-full px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
+              >
+                <option value="">Select one</option>
+                <option value="passport">Passport</option>
+                <option value="Driving License">Driving License</option>
+                <option value="Citizenship">Citizenship</option>
+                <option value="NID">National Identity Number</option>
+              </select>
             </div>
 
             <div>
@@ -237,7 +169,6 @@ function RegisterPage() {
             </div>
           </div>
 
-          {/* Submit */}
           <button
             type="submit"
             disabled={loading}

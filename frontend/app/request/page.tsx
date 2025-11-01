@@ -1,10 +1,19 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import { IdCard, Users, Calendar, User, Lock } from "lucide-react";
 import axios from "axios";
 
+interface CardRequestFormData {
+  requesterType: string;
+  username: string;
+  password: string;
+  fullName: string;
+  dateOfBirth: string;
+}
+
 function CardRequestPage() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<CardRequestFormData>({
     requesterType: "",
     username: "",
     password: "",
@@ -15,21 +24,22 @@ function CardRequestPage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
+
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/card-requests`,
         formData
       );
+
       setMessage("✅ Card request submitted successfully!");
       setFormData({
         requesterType: "",
@@ -38,10 +48,16 @@ function CardRequestPage() {
         fullName: "",
         dateOfBirth: "",
       });
-    } catch (error: any) {
-      setMessage(
-        error.response?.data?.message || "❌ Failed to submit card request."
-      );
+
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        setMessage(
+          error.response?.data?.message || "❌ Failed to submit card request."
+        );
+      } else {
+        setMessage("❌ An unexpected error occurred.");
+      }
     } finally {
       setLoading(false);
     }
@@ -49,8 +65,12 @@ function CardRequestPage() {
 
   return (
     <div className="min-h-screen relative bg-white text-gray-900">
+      {/* Background grid */}
       <div className="absolute h-[50%] w-full inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(0,0,0,0.03)_50%,transparent_75%)] bg-[length:60px_60px]" />
+
+      {/* Content */}
       <div className="relative z-10 max-w-2xl mx-auto px-6 pt-24 py-20">
+        {/* Header */}
         <section className="text-center space-y-4 mb-10">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-black">
             Request a Card
@@ -60,6 +80,7 @@ function CardRequestPage() {
           </p>
         </section>
 
+        {/* Form */}
         <form
           onSubmit={handleSubmit}
           className="p-8 bg-gray-100 rounded-2xl shadow-md space-y-6"

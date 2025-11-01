@@ -42,9 +42,9 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="py-20 bg-card/30">
-      <div className="container w-[90%] mx-auto px-4">
-        <div className="text-center space-y-4 mb-16">
+    <section id="features" className="bg-white">
+      <div className="container mx-auto px-4">
+        {/* <div className="text-center space-y-4 mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-balance">
             Why Choose <span className="text-primary">TransitPay</span>?
           </h2>
@@ -52,7 +52,7 @@ export function FeaturesSection() {
             Experience the next generation of public transportation payments
             with features designed for modern commuters.
           </p>
-        </div>
+        </div> */}
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
