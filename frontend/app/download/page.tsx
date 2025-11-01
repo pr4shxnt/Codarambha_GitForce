@@ -94,7 +94,7 @@ function DownloadPage() {
           Regular updates ensure you always have the newest features, bug
           fixes, and security patches.
         </p>
-        <div className="w-[80%] h-full mx-auto pt-10"><FeaturesSection /></div>
+        <div className="w-[80%] h-full mx-auto pt-10 text-left"><FeaturesSection /></div>
 
       </section>
 
